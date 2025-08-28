@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Detector</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("https://imgs.search.brave.com/WbSpRxw5FjW79MHSfVCbfBSvCDLX3Lmz2bz9O3Dy_Aw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA3LzA3Lzg1LzY1/LzM2MF9GXzcwNzg1/NjU0OV8yQVdWNEF0/NlJwWHVaZVdVdXRJ/MUpZdXJyN3J4Q2ls/Zi5qcGc");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.8);
+            width: 400px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Spam Detector</h1>
+        <form action="/predict" method="post">
+            <input type="text" name="message" placeholder="Enter your message" required>
+            <br>
+            <button type="submit">Check</button>
+        </form>
+        {% if prediction %}
+            <h2>Result: {{ prediction }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>

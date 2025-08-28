@@ -1,0 +1,60 @@
+import pandas as pd
+
+# Load the dataset
+dataset = pd.read_csv(r"C:\Users\vaish\OneDrive\Desktop\codeunnati\msgprivacy\spam.csv", encoding='latin-1')
+
+# Display the first few rows
+print(dataset.head())
+# Rename columns for clarity (if needed)
+dataset = dataset.rename(columns={'v1': 'label', 'v2': 'message'})
+
+# Convert labels to binary (spam = 1, ham = 0)
+dataset['label'] = dataset['label'].map({'spam': 1, 'ham': 0})
+
+# Check for null values
+print(dataset.isnull().sum())
+
+# Remove unnecessary columns (if present)
+dataset = dataset[['label', 'message']]
+
+from sklearn.model_selection import train_test_split
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    dataset['message'], dataset['label'], test_size=0.2, random_state=42
+)
+from sklearn.feature_extraction.text import CountVectorizer
+
+# Convert text into numeric vectors
+vectorizer = CountVectorizer(stop_words='english')
+X_train_vectors = vectorizer.fit_transform(X_train)
+X_test_vectors = vectorizer.transform(X_test)
+
+from sklearn.feature_extraction.text import CountVectorizer
+
+# Convert text into numeric vectors
+vectorizer = CountVectorizer(stop_words='english')
+X_train_vectors = vectorizer.fit_transform(X_train)
+X_test_vectors = vectorizer.transform(X_test)
+
+from sklearn.naive_bayes import MultinomialNB
+
+# Train the Naive Bayes classifier
+model = MultinomialNB()
+model.fit(X_train_vectors, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test_vectors)
+
+# Evaluate the model
+from sklearn.metrics import classification_report, accuracy_score
+print(classification_report(y_test, y_pred))
+print("Accuracy:", accuracy_score(y_test, y_pred))
+
+import joblib
+
+# Save the trained model and vectorizer
+joblib.dump(model, 'spam_model.pkl')
+joblib.dump(vectorizer, 'vectorizer.pkl')
+
+print("Model and vectorizer saved!")
